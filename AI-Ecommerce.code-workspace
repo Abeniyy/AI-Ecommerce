@@ -1,0 +1,28 @@
+{
+  "folders": [
+    { "path": "client" },
+    { "path": "server" },
+    { "path": "ml" }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/__pycache__": true,
+      "ml/models": true
+    },
+    "editor.formatOnSave": true,
+    "eslint.run": "onSave",
+    "python.pythonPath": "${workspaceFolder:ml}/.venv/bin/python"
+  },
+  "extensions": {
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode",
+      "ms-python.python",
+      "ms-python.vscode-pylance",
+      "eamodio.gitlens",
+      "mhutchie.git-graph",
+      "pkief.material-icon-theme"
+    ]
+  }
+}

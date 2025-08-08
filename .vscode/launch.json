@@ -1,0 +1,29 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run Server",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder:server}/src/app.js",
+      "cwd": "${workspaceFolder:server}",
+      "runtimeArgs": ["--inspect"],
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Run Client",
+      "type": "pwa-node",
+      "request": "launch",
+      "cwd": "${workspaceFolder:client}",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"]
+    },
+    {
+      "name": "Run ML Service",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder:ml}/train_model.py",
+      "console": "integratedTerminal"
+    }
+  ]
+}

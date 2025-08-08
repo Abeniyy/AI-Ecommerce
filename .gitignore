@@ -4,3 +4,10 @@
 /.env
 ml/__pycache__
 ml/models
+# System files
+.DS_Store
+
+# IDE configurations (except shared debug/task configs)
+.vscode/*
+!.vscode/launch.json
+!.vscode/tasks.json
