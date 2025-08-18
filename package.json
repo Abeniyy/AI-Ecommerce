@@ -1,0 +1,26 @@
+{
+  "name": "ai-ecommerce-root",
+  "version": "1.0.0",
+  "description": "Full stack AI-enhanced ecommerce website",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"cd client && npm run dev\" \"cd server && npm run dev\"",
+    "start": "cd server && npm start",
+    "build": "cd client && npm run build",
+    "test": "concurrently \"cd client && npm test\" \"cd server && npm test\"",
+    "prepare": "husky install"
+  },
+  "keywords": [
+    "ecommerce",
+    "ai",
+    "react",
+    "node",
+    "python"
+  ],
+  "author": "Abenezer Tefera <abenibah@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "husky": "^9.0.0"
+  }
+}
