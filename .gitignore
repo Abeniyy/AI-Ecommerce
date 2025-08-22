@@ -1,14 +1,50 @@
-/node_modules
-/dist
-/build
-/.env
-ml/__pycache__
-ml/models
-# System files
-.DS_Store
+# ---------- Node / JS ----------
+**/node_modules/
+**/dist/
+**/build/
+**/.cache/
+**/.vite/
+**/coverage/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.eslintcache
+*.tsbuildinfo
 
-# IDE configurations (except shared debug/task configs)
+# ---------- Env & secrets (never commit real envs) ----------
+.env
+.env.*
+*.env
+**/.env
+**/.env.*
+.envrc
+
+# ---------- Python ----------
+**/__pycache__/
+**/*.py[cod]
+**/*.egg-info/
+**/.mypy_cache/
+**/.pytest_cache/
+**/.venv/
+.venv/                 # root venv if you use one
+
+# ML artifacts
+ml/models/
+ml/checkpoints/
+# (optional) add if you put sample data locally:
+# ml/data/
+
+# ---------- Logs ----------
+*.log
+logs/
+
+# ---------- OS cruft ----------
+.DS_Store
+Thumbs.db
+
+# ---------- IDE ----------
 .vscode/*
 !.vscode/launch.json
 !.vscode/tasks.json
-.venv/
+.idea/
