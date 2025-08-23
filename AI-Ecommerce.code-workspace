@@ -12,7 +12,8 @@
     },
     "editor.formatOnSave": true,
     "eslint.run": "onSave",
-    "python.pythonPath": "${workspaceFolder:ml}/.venv/bin/python"
+    "python.pythonPath": "${workspaceFolder:ml}/.venv/bin/python",
+    "liveServer.settings.multiRootWorkspaceName": "server"
   },
   "extensions": {
     "recommendations": [

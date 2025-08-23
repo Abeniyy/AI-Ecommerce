@@ -2,6 +2,10 @@
   "name": "ai-ecommerce-root",
   "version": "1.0.0",
   "description": "Full stack AI-enhanced ecommerce website",
+  "workspaces": [
+	"client",
+	"server"
+   ],
   "private": true,
   "scripts": {
     "dev": "concurrently \"cd client && npm run dev\" \"cd server && npm run dev\"",

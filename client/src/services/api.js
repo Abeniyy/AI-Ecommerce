@@ -1,4 +1,12 @@
-export async function fetchProducts() {
-  const res = await fetch('/api/products');
-  return await res.json();
-}
+import axios from 'axios';
+const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+
+export const api = axios.create({ baseURL });
+
+// Attach token from localStorage if present
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});
+
