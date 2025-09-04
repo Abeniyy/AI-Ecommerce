@@ -20,7 +20,7 @@ function Shell() {
   
   const navLink = ({ isActive }) => 
     `px-3 py-2 rounded-xl transition-colors ${
-      isActive ? 'bg-indigo-600 text-white' : 'text-gray-700 hover:bg-gray-100'
+      isActive ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100'
     }`;
 
   const isAdminRoute = location.pathname.startsWith('/admin');
@@ -31,10 +31,21 @@ function Shell() {
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            {/* Logo */}
-            <Link to="/" className="text-xl font-bold text-indigo-600">
-              AI-Ecommerce
-            </Link>
+            
+          <Link to="/" className="flex items-center space-x-3">
+          {/* Logo */}
+          <img 
+            src="/src/images/BaaruuMart Logo.png" 
+            alt="Baaruu Mart Logo" 
+            className="h-12 w-auto"
+          />
+
+          <span className="text-xl font-bold">
+            <span className="text-green-600">BAA</span>
+            <span className="text-yellow-500">RUU</span>
+            <span className="text-red-600"> MART</span>
+          </span>
+          </Link>
 
             {/* Navigation */}
             <nav className="flex items-center gap-2">
@@ -57,25 +68,25 @@ function Shell() {
                   <div className="hidden group-hover:block absolute right-0 mt-2 bg-white rounded-xl shadow-lg border p-2 min-w-[160px] z-50">
                     <NavLink 
                       to="/admin" 
-                      className="block px-4 py-2 rounded-lg hover:bg-indigo-50 text-gray-700 hover:text-indigo-600 transition-colors"
+                      className="block px-4 py-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition-colors"
                     >
                       Dashboard
                     </NavLink>
                     <NavLink 
                       to="/admin/products" 
-                      className="block px-4 py-2 rounded-lg hover:bg-indigo-50 text-gray-700 hover:text-indigo-600 transition-colors"
+                      className="block px-4 py-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition-colors"
                     >
                       Products
                     </NavLink>
                     <NavLink 
                       to="/admin/orders" 
-                      className="block px-4 py-2 rounded-lg hover:bg-indigo-50 text-gray-700 hover:text-indigo-600 transition-colors"
+                      className="block px-4 py-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition-colors"
                     >
                       Orders
                     </NavLink>
                     <NavLink 
                       to="/admin/users" 
-                      className="block px-4 py-2 rounded-lg hover:bg-indigo-50 text-gray-700 hover:text-indigo-600 transition-colors"
+                      className="block px-4 py-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition-colors"
                     >
                       Users
                     </NavLink>
@@ -92,13 +103,13 @@ function Shell() {
                   <div className="flex items-center gap-2">
                     <NavLink 
                       to="/orders" 
-                      className="text-sm text-gray-600 hover:text-indigo-600 transition-colors"
+                      className="text-sm text-gray-600 hover:text-green-600 transition-colors"
                     >
                       Orders
                     </NavLink>
                     <button 
                       onClick={logout}
-                      className="text-sm text-gray-600 hover:text-indigo-600 transition-colors"
+                      className="text-sm text-gray-600 hover:text-green-600 transition-colors"
                     >
                       Logout
                     </button>
@@ -108,13 +119,13 @@ function Shell() {
                 <div className="flex items-center gap-2">
                   <NavLink 
                     to="/login" 
-                    className="px-3 py-2 text-gray-700 hover:text-indigo-600 transition-colors"
+                    className="px-3 py-2 text-gray-700 hover:text-green-600 transition-colors"
                   >
                     Login
                   </NavLink>
                   <NavLink 
                     to="/register" 
-                    className="px-3 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors"
+                    className="px-3 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors"
                   >
                     Register
                   </NavLink>
@@ -182,7 +193,7 @@ function Shell() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="text-center text-sm text-gray-500">
             <p>© {new Date().getFullYear()} AI-Ecommerce. All rights reserved.</p>
-            <p className="mt-1">Built with modern web technologies</p>
+            <p className="mt-1">Built by ABE web technologies.</p>
           </div>
         </div>
       </footer>

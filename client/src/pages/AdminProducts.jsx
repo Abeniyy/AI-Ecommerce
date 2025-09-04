@@ -110,7 +110,7 @@ export default function AdminProducts() {
         </div>
         <button
           onClick={loadProducts}
-          className="mt-3 sm:mt-0 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+          className="mt-3 sm:mt-0 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
         >
           Refresh
         </button>
@@ -123,7 +123,7 @@ export default function AdminProducts() {
           placeholder="Search products..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
         />
       </div>
 
@@ -147,7 +147,7 @@ export default function AdminProducts() {
               </label>
               <input
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 placeholder="Enter product name"
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -164,7 +164,7 @@ export default function AdminProducts() {
                   type="number"
                   step="0.01"
                   min="0"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                   placeholder="0.00"
                   value={form.price}
                   onChange={(e) => setForm({ ...form, price: e.target.value })}
@@ -177,7 +177,7 @@ export default function AdminProducts() {
                 <input
                   type="number"
                   min="0"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                   placeholder="Quantity"
                   value={form.stock}
                   onChange={(e) => setForm({ ...form, stock: e.target.value })}
@@ -191,7 +191,7 @@ export default function AdminProducts() {
                   SKU
                 </label>
                 <input
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                   placeholder="Product SKU"
                   value={form.sku}
                   onChange={(e) => setForm({ ...form, sku: e.target.value })}
@@ -202,7 +202,7 @@ export default function AdminProducts() {
                   Category
                 </label>
                 <input
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                   placeholder="Category"
                   value={form.category}
                   onChange={(e) => setForm({ ...form, category: e.target.value })}
@@ -216,7 +216,7 @@ export default function AdminProducts() {
               </label>
               <input
                 type="url"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 placeholder="https://example.com/image.jpg"
                 value={form.image}
                 onChange={(e) => setForm({ ...form, image: e.target.value })}
@@ -229,7 +229,7 @@ export default function AdminProducts() {
               </label>
               <textarea
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 placeholder="Product description..."
                 value={form.description}
                 onChange={(e) => setForm({ ...form, description: e.target.value })}
@@ -239,7 +239,7 @@ export default function AdminProducts() {
             <div className="flex gap-3">
               <button
                 type="submit"
-                className="flex-1 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+                className="flex-1 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
               >
                 {editingProduct ? 'Update Product' : 'Create Product'}
               </button>

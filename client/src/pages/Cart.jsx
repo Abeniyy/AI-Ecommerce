@@ -81,7 +81,7 @@ export default function Cart() {
           <p className="text-red-600 text-lg mb-4">{error}</p>
           <button 
             onClick={loadCart}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
           >
             Try Again
           </button>
@@ -97,7 +97,7 @@ export default function Cart() {
         <p className="text-gray-600 mb-6">Your cart is empty</p>
         <button 
           onClick={() => navigate('/')}
-          className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+          className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
         >
           Continue Shopping
         </button>
@@ -163,7 +163,7 @@ export default function Cart() {
       <div className="bg-white rounded-xl shadow-md p-6">
         <div className="flex justify-between items-center mb-4">
           <span className="text-lg font-semibold">Total:</span>
-          <span className="text-2xl font-bold text-indigo-600">
+          <span className="text-2xl font-bold text-green-600">
             ${Number(cart.total).toFixed(2)}
           </span>
         </div>
@@ -171,7 +171,7 @@ export default function Cart() {
         <button
           onClick={proceedToCheckout}
           disabled={updating}
-          className="w-full bg-indigo-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {updating ? 'Processing...' : 'Proceed to Checkout'}
         </button>

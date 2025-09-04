@@ -68,7 +68,7 @@ export default function AdminUsers() {
           <p className="text-red-600 text-lg mb-4">{error}</p>
           <button 
             onClick={loadUsers}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
           >
             Try Again
           </button>
@@ -87,7 +87,7 @@ export default function AdminUsers() {
         </div>
         <button
           onClick={loadUsers}
-          className="mt-3 sm:mt-0 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+          className="mt-3 sm:mt-0 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
         >
           Refresh
         </button>
@@ -106,7 +106,7 @@ export default function AdminUsers() {
               placeholder="Search by email or name..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
             />
           </div>
           <div>
@@ -117,7 +117,7 @@ export default function AdminUsers() {
               id="roleFilter"
               value={roleFilter}
               onChange={(e) => setRoleFilter(e.target.value)}
-              className="w-full sm:w-40 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full sm:w-40 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
             >
               {roleOptions.map(role => (
                 <option key={role} value={role}>
@@ -165,7 +165,7 @@ export default function AdminUsers() {
                     <select
                       value={user.role}
                       onChange={(e) => updateUserRole(user.id, e.target.value)}
-                      className={`text-sm font-medium rounded-full px-3 py-1 border ${getRoleColor(user.role)} focus:ring-2 focus:ring-indigo-500 focus:border-transparent`}
+                      className={`text-sm font-medium rounded-full px-3 py-1 border ${getRoleColor(user.role)} focus:ring-2 focus:ring-green-500 focus:border-transparent`}
                     >
                       <option value="customer">Customer</option>
                       <option value="moderator">Moderator</option>
@@ -186,7 +186,7 @@ export default function AdminUsers() {
                         // Add user action functionality here
                         console.log('Manage user:', user.id);
                       }}
-                      className="text-indigo-600 hover:text-indigo-900 text-sm font-medium"
+                      className="text-green-600 hover:text-green-900 text-sm font-medium"
                     >
                       View Details
                     </button>

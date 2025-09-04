@@ -64,7 +64,7 @@ export default function ProductDetail() {
           <p className="text-red-600 text-lg mb-4">{error}</p>
           <button 
             onClick={() => navigate('/')}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
           >
             Back to Products
           </button>
@@ -102,7 +102,7 @@ export default function ProductDetail() {
           <div>
             <h1 className="text-3xl font-bold text-gray-800">{product.name}</h1>
             {product.category && (
-              <p className="text-indigo-600 font-medium mt-2">{product.category}</p>
+              <p className="text-green-600 font-medium mt-2">{product.category}</p>
             )}
           </div>
 
@@ -113,7 +113,7 @@ export default function ProductDetail() {
             </div>
           )}
 
-          <div className="text-2xl font-bold text-indigo-600">
+          <div className="text-2xl font-bold text-green-600">
             ${Number(product.price).toFixed(2)}
           </div>
 
@@ -126,14 +126,14 @@ export default function ProductDetail() {
                 min="1" 
                 value={quantity}
                 onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                className="w-20 border border-gray-300 rounded-lg p-2 text-center focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-20 border border-gray-300 rounded-lg p-2 text-center focus:ring-2 focus:ring-green-500 focus:border-transparent"
               />
             </div>
 
             <button 
               onClick={addToCart}
               disabled={addingToCart}
-              className="w-full bg-indigo-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {addingToCart ? 'Adding to Cart...' : 'Add to Cart'}
             </button>

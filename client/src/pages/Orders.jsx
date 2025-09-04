@@ -34,7 +34,7 @@ export default function Orders() {
       completed: 'bg-green-100 text-green-800',
       cancelled: 'bg-red-100 text-red-800',
       processing: 'bg-blue-100 text-blue-800',
-      shipped: 'bg-indigo-100 text-indigo-800'
+      shipped: 'bg-green-100 text-green-800'
     };
     return statusColors[status] || 'bg-gray-100 text-gray-800';
   }
@@ -59,7 +59,7 @@ export default function Orders() {
           <p className="text-red-600 text-lg mb-4">{error}</p>
           <button 
             onClick={loadOrders}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
           >
             Try Again
           </button>
@@ -76,7 +76,7 @@ export default function Orders() {
           <p className="text-gray-600 mb-4">You haven't placed any orders yet.</p>
           <button 
             onClick={() => navigate('/')}
-            className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
           >
             Start Shopping
           </button>
@@ -120,7 +120,7 @@ export default function Orders() {
 
               {/* Order Total */}
               <div className="text-right">
-                <p className="text-lg font-bold text-indigo-600">
+                <p className="text-lg font-bold text-green-600">
                   ${Number(order.total_amount).toFixed(2)}
                 </p>
                 <button 
@@ -128,7 +128,7 @@ export default function Orders() {
                     e.stopPropagation();
                     viewOrderDetails(order.id);
                   }}
-                  className="text-indigo-600 hover:text-indigo-800 text-sm font-medium mt-2"
+                  className="text-green-600 hover:text-green-800 text-sm font-medium mt-2"
                 >
                   View Details →
                 </button>
@@ -142,7 +142,7 @@ export default function Orders() {
       <div className="mt-8 bg-gray-50 rounded-xl p-6">
         <div className="flex justify-between items-center">
           <span className="text-lg font-semibold">Total Orders:</span>
-          <span className="text-xl font-bold text-indigo-600">{orders.length}</span>
+          <span className="text-xl font-bold text-green-600">{orders.length}</span>
         </div>
       </div>
     </div>

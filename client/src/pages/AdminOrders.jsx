@@ -39,7 +39,7 @@ export default function AdminOrders() {
     const colors = {
       pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
       paid: 'bg-blue-100 text-blue-800 border-blue-200',
-      shipped: 'bg-indigo-100 text-indigo-800 border-indigo-200',
+      shipped: 'bg-green-100 text-green-800 border-green-200',
       completed: 'bg-green-100 text-green-800 border-green-200',
       cancelled: 'bg-red-100 text-red-800 border-red-200',
       processing: 'bg-purple-100 text-purple-800 border-purple-200'
@@ -65,7 +65,7 @@ export default function AdminOrders() {
           <p className="text-red-600 text-lg mb-4">{error}</p>
           <button 
             onClick={loadOrders}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
           >
             Try Again
           </button>
@@ -84,7 +84,7 @@ export default function AdminOrders() {
         </div>
         <button
           onClick={loadOrders}
-          className="mt-3 sm:mt-0 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+          className="mt-3 sm:mt-0 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
         >
           Refresh
         </button>
@@ -154,7 +154,7 @@ export default function AdminOrders() {
                           onClick={() => updateStatus(order.id, status)}
                           className={`px-3 py-1 text-xs rounded-full border transition-colors ${
                             order.status === status
-                              ? 'bg-indigo-600 text-white border-indigo-600'
+                              ? 'bg-green-600 text-white border-green-600'
                               : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                           } disabled:opacity-50 disabled:cursor-not-allowed`}
                         >

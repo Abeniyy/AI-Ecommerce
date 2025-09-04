@@ -1,16 +1,13 @@
-// server/db.js (upgraded)
 const { Pool, types } = require('pg');
 require('dotenv').config();
 
-/* ------------------------ Type parsers ------------------------ */
-// NUMERIC/DECIMAL as number (OID 1700)
+//parsers
 types.setTypeParser(1700, (v) => (v == null ? null : parseFloat(v)));
-// TIMESTAMP WITHOUT TIME ZONE (OID 1114) -> JS Date (local)
+
 types.setTypeParser(1114, (v) => (v == null ? null : new Date(v)));
-// TIMESTAMP WITH TIME ZONE (OID 1184) -> JS Date (UTC aware)
+
 types.setTypeParser(1184, (v) => (v == null ? null : new Date(v)));
-// Optional: BIGINT (OID 20). If you expect > 2^53-1, prefer BigInt.
-// Toggle via PG_INT8_MODE=bigint|number|string (default string)
+
 const INT8_MODE = (process.env.PG_INT8_MODE || 'string').toLowerCase();
 if (INT8_MODE === 'number') {
   types.setTypeParser(20, (v) => (v == null ? null : Number(v)));
@@ -18,7 +15,7 @@ if (INT8_MODE === 'number') {
   types.setTypeParser(20, (v) => (v == null ? null : BigInt(v)));
 }
 
-/* ------------------------ Config helpers ------------------------ */
+/*  Config helpers  */
 const num = (v, d) => (v === undefined || v === '' ? d : Number(v));
 const bool = (v, d=false) => {
   if (v === undefined) return d;
@@ -60,7 +57,7 @@ function buildConfig(prefix = '') {
       };
 }
 
-/* ------------------------ Pools (write + optional read) ------------------------ */
+/* Pools (write + optional read) */
 const required = ['PG_USER', 'PG_HOST', 'PG_DATABASE', 'PG_PASSWORD'];
 if (!process.env.DATABASE_URL) {
   for (const k of required) {
@@ -69,12 +66,12 @@ if (!process.env.DATABASE_URL) {
 }
 
 const writePool = new Pool(buildConfig(''));               // primary / writes
-const readPool  = new Pool(buildConfig('READ_'));          // read replica (optional). If no READ_* or READ_DATABASE_URL, this will still be valid but unused.
+const readPool  = new Pool(buildConfig('READ_'));          // read replica (optional)
 
 function onConnectSetup(pool, label) {
   pool.on('connect', async (client) => {
     if (process.env.NODE_ENV !== 'test') {
-      console.log(`✅ PostgreSQL connection established [${label}]`);
+      console.log(`PostgreSQL connection established [${label}]`);
     }
     // Session setup (safe, optional)
     try {
@@ -98,13 +95,13 @@ function onConnectSetup(pool, label) {
   });
 
   pool.on('error', (err) => {
-    console.error(`❌ PostgreSQL pool error [${label}]:`, err);
+    console.error(`PostgreSQL pool error [${label}]:`, err);
   });
 }
 onConnectSetup(writePool, 'write');
 onConnectSetup(readPool, 'read');
 
-/* ------------------------ Core API ------------------------ */
+/*  Core API  */
 async function query(text, params = [], options = {}) {
   const start = Date.now();
   const useRead = options.readOnly && readPool ? readPool : writePool;
@@ -112,7 +109,7 @@ async function query(text, params = [], options = {}) {
   const ms = Date.now() - start;
   if (ms >= SLOW_MS) {
     // Avoid logging param values (PII); just log count.
-    console.log(`🐢 Slow query ${ms}ms${options.readOnly ? ' [RO]' : ''}:`, text.replace(/\s+/g, ' ').trim(), `(params: ${params.length})`);
+    console.log(`Slow query ${ms}ms${options.readOnly ? ' [RO]' : ''}:`, text.replace(/\s+/g, ' ').trim(), `(params: ${params.length})`);
   }
   return res;
 }
@@ -151,7 +148,7 @@ async function checkConnection(retries = 0, delayMs = 0) {
 async function shutdown() {
   try {
     await Promise.allSettled([writePool.end(), readPool.end()]);
-    console.log('🛑 PostgreSQL pools closed');
+    console.log('PostgreSQL pools closed');
   } catch (e) {
     console.error('Error closing PG pools:', e);
   }

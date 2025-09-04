@@ -28,7 +28,7 @@ export default function AdminDashboard() {
     navigate(`/admin/${section}`);
   }
 
-  const MetricCard = ({ title, value, subtitle, icon, color = 'indigo', onClick }) => (
+  const MetricCard = ({ title, value, subtitle, icon, color = 'green', onClick }) => (
     <div 
       onClick={onClick}
       className={`bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer border-l-4 border-${color}-500 ${
@@ -72,7 +72,7 @@ export default function AdminDashboard() {
           <p className="text-red-600 text-lg mb-4">{error}</p>
           <button 
             onClick={loadMetrics}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
           >
             Try Again
           </button>
@@ -136,7 +136,7 @@ export default function AdminDashboard() {
           <div className="space-y-3">
             <button 
               onClick={() => navigateTo('products/new')}
-              className="w-full text-left p-3 bg-indigo-50 text-indigo-700 rounded-lg hover:bg-indigo-100 transition-colors"
+              className="w-full text-left p-3 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors"
             >
               + Add New Product
             </button>

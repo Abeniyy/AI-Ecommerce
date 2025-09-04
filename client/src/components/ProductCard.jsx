@@ -49,7 +49,7 @@ export default function ProductCard({ product, onAdded }) {
         </p>
         
         <div className="flex justify-between items-center mt-3">
-          <span className="text-lg font-bold text-indigo-600">
+          <span className="text-lg font-bold text-green-600">
             ${Number(product.price).toFixed(2)}
           </span>
           
@@ -57,13 +57,13 @@ export default function ProductCard({ product, onAdded }) {
           <div className="flex gap-2">
             <button 
               onClick={viewDetails}
-              className="px-3 py-1 rounded border border-gray-300 hover:border-indigo-600 transition-colors text-sm"
+              className="px-3 py-1 rounded border border-gray-300 hover:border-green-600 transition-colors text-sm"
             >
               Details
             </button>
             <button 
               onClick={addToCart}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded-md text-sm transition-colors"
+              className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded-md text-sm transition-colors"
             >
               Add to Cart
             </button>

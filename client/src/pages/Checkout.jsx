@@ -36,7 +36,7 @@ export default function Checkout() {
         <p className="text-gray-600 mb-4">You need to be logged in to complete your purchase.</p>
         <button
           onClick={() => navigate('/login')}
-          className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+          className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
         >
           Sign In
         </button>
@@ -63,7 +63,7 @@ export default function Checkout() {
     <div className="max-w-2xl mx-auto p-4">
       <div className="bg-white rounded-xl shadow-md overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-6">
+        <div className="bg-gradient-to-r from-green-500 to-purple-600 text-white p-6">
           <h1 className="text-2xl font-bold">Checkout</h1>
           <p className="opacity-90">Complete your purchase</p>
         </div>
@@ -111,7 +111,7 @@ export default function Checkout() {
             <button
               onClick={placeOrder}
               disabled={loading}
-              className="flex-1 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <span className="flex items-center justify-center">
