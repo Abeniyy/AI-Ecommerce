@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api } from '../services/api';
 import ProductCard from '../components/ProductCard';
+import { track } from '../lib/track';
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -23,6 +24,14 @@ export default function Home() {
       setLoading(false); 
     }
   }
+
+  
+    useEffect(() => {
+      if (products.length > 0) {
+        // Fire-and-forget; don't await
+        products.slice(0, 12).forEach(p => track('view', p.id));
+      }
+    }, [products]);
 
   const [current, setCurrent] = useState(0);
 
