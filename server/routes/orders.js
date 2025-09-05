@@ -76,6 +76,13 @@ VALUES ($1,'pending','USD',$2) RETURNING id, status, total_amount, created_at`,
 );
 const orderId = order.rows[0].id;
 
+await cx.query(
+  `INSERT INTO public.user_events (user_id, session_id, product_id, event, weight)
+   VALUES ($1, NULL, $2, 'purchase', 10)`,
+  [req.user.id, it.product_id]
+);
+
+
 
 // snapshot items
 for (const it of items.rows) {

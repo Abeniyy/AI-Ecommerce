@@ -20,4 +20,13 @@ function requireAdmin(req, res, next) {
   next();
 }
 
-module.exports = { requireAuth, requireAdmin };
+function maybeAuth(req, _res, next) {
+  const hdr = req.headers.authorization || '';
+  const token = hdr.startsWith('Bearer ') ? hdr.slice(7) : null;
+  if (!token) return next();
+  try { req.user = verifyJwt(token); } catch {}
+  next();
+}
+
+module.exports = { requireAuth, requireAdmin, maybeAuth };
+
