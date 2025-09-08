@@ -1,3 +1,4 @@
+// middleware/auth.js
 const { verifyJwt } = require('../utils/jwt');
 
 function requireAuth(req, res, next) {
@@ -24,9 +25,8 @@ function maybeAuth(req, _res, next) {
   const hdr = req.headers.authorization || '';
   const token = hdr.startsWith('Bearer ') ? hdr.slice(7) : null;
   if (!token) return next();
-  try { req.user = verifyJwt(token); } catch {}
+  try { req.user = verifyJwt(token); } catch {} // ignore failures, proceed unauthenticated
   next();
 }
 
 module.exports = { requireAuth, requireAdmin, maybeAuth };
-
