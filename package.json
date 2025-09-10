@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "Full stack AI-enhanced ecommerce website",
   "workspaces": [
-	"client",
-	"server"
-   ],
+    "client",
+    "server"
+  ],
   "private": true,
   "scripts": {
-     "preinstall": "npm install husky --no-save",
+    "preinstall": "npm install husky --no-save",
     "dev": "concurrently \"cd client && npm run dev\" \"cd server && npm run dev\"",
     "start": "cd server && npm start",
     "build": "cd client && npm run build",
@@ -27,5 +27,8 @@
   "devDependencies": {
     "concurrently": "^8.2.2",
     "husky": "^9.0.0"
+  },
+  "dependencies": {
+    "jsdom": "^26.1.0"
   }
 }
