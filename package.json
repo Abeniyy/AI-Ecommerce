@@ -8,6 +8,7 @@
    ],
   "private": true,
   "scripts": {
+     "preinstall": "npm install husky --no-save",
     "dev": "concurrently \"cd client && npm run dev\" \"cd server && npm run dev\"",
     "start": "cd server && npm start",
     "build": "cd client && npm run build",
