@@ -1,4 +1,5 @@
 import { Link, Routes, Route, NavLink, useLocation } from 'react-router-dom';
+import('tailwindcss').Config
 import Home from './pages/Home';
 import Recommendations from './pages/Recommendations';
 import Login from './pages/Login';
@@ -35,15 +36,15 @@ function Shell() {
           <Link to="/" className="flex items-center space-x-3">
           {/* Logo */}
           <img 
-            src="/src/images/BaaruuMart Logo.png" 
+            src="/src/images/LogoWoName.png" 
             alt="Baaruu Mart Logo" 
             className="h-12 w-auto"
           />
 
           <span className="text-xl font-bold">
-            <span className="text-green-600">BAA</span>
-            <span className="text-yellow-500">RUU</span>
-            <span className="text-red-600"> MART</span>
+            <span className="text-logoGreen">BAA</span>
+            <span className="text-logoYellow">RUU</span>
+            <span className="text-logoRed"> MART</span>
           </span>
           </Link>
 
