@@ -25,6 +25,7 @@
   "author": "Abenezer Tefera <abenibah@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.8.0",
     "concurrently": "^8.2.2",
     "husky": "^9.0.0"
   },
