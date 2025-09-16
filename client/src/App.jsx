@@ -56,7 +56,7 @@ function Shell() {
               
               {/* Admin Dropdown */}
               {user?.role === 'admin' && (
-                <div className="relative group">
+                <div className="admin-group relative">
                   <NavLink 
                     to="/admin" 
                     className={({ isActive }) => 
@@ -66,7 +66,7 @@ function Shell() {
                     Admin
                     <span className="text-xs">▼</span>
                   </NavLink>
-                  <div className="hidden group-hover:block absolute right-0 mt-2 bg-white rounded-xl shadow-lg border p-2 min-w-[160px] z-50">
+                  <div className="admin-dropdown absolute right-0 mt-2 bg-white rounded-xl shadow-lg border p-2 min-w-[160px] z-50">
                     <NavLink 
                       to="/admin" 
                       className="block px-4 py-2 rounded-lg hover:bg-green-50 text-gray-700 hover:text-green-600 transition-colors"
@@ -92,6 +92,35 @@ function Shell() {
                       Users
                     </NavLink>
                   </div>
+                  
+                  {/* Invisible extension to prevent accidental dropdown closure */}
+                  <style>
+                    {`
+                      .admin-dropdown {
+                        opacity: 0;
+                        visibility: hidden;
+                        transform: translateY(10px);
+                        transition: all 0.3s ease;
+                      }
+                      
+                      .admin-group:hover .admin-dropdown {
+                        opacity: 1;
+                        visibility: visible;
+                        transform: translateY(0);
+                      }
+                      
+                      /* Add an invisible extension to the trigger area */
+                      .admin-group::after {
+                        content: '';
+                        position: absolute;
+                        bottom: -10px;
+                        left: 0;
+                        width: 100%;
+                        height: 20px;
+                        background: transparent;
+                      }
+                    `}
+                  </style>
                 </div>
               )}
 
@@ -110,7 +139,7 @@ function Shell() {
                     </NavLink>
                     <button 
                       onClick={logout}
-                      className="text-sm text-gray-600 hover:text-green-600 transition-colors"
+                      className="text-sm bg-gray-600 text-white px-3 py-2 rounded-xl hover:bg-gray-700 transition-colors"
                     >
                       Logout
                     </button>
