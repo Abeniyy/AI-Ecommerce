@@ -6,6 +6,7 @@ export const useAuth = () => useContext(AuthCtx);
 
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [verified, setVerified] = useState(false);
 
   async function login(email, password) {
     const { data } = await api.post('/api/auth/login', { email, password });
@@ -21,11 +22,16 @@ export default function AuthProvider({ children }) {
     localStorage.removeItem('token');
     setUser(null);
   }
+  async function verify(email) {
+    const { data } = await api.post('/api/auth/verify', email);
+    localStorage.setItem('token', data.token);
+    setUser(data.user);
+  }
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) return;
     api.get('/api/auth/me').then(({ data }) => setUser(data.user)).catch(() => logout());
   }, []);
 
-  return <AuthCtx.Provider value={{ user, login, logout, register }}>{children}</AuthCtx.Provider>;
+  return <AuthCtx.Provider value={{ user, login, logout, register, verify }}>{children}</AuthCtx.Provider>;
 }

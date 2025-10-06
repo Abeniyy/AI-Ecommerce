@@ -2,8 +2,11 @@ import { useEffect, useState } from 'react';
 import { api } from '../services/api';
 import ProductCard from '../components/ProductCard';
 import { track } from '../lib/track';
+import { useAuth } from '../context/AuthContext';
+import { NavLink } from "react-router-dom";
 
 export default function Home() {
+  const { user } = useAuth();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -49,6 +52,10 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
+      {/* Email verification section for unverified users */}
+      {user && (
+        <div className="flex justify-center h-[5vh]"><NavLink to="/verifyemail" className="underline">Verify Your Email</NavLink></div>
+      )}
       {/* Hero Section - Full width */}
       <section className="relative w-full overflow-hidden">
         {/* Background image container */}
