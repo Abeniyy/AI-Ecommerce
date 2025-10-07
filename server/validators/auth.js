@@ -11,4 +11,8 @@ const loginRules = [
   body('password').isString().notEmpty()
 ];
 
-module.exports = { registerRules, loginRules };
+const verifyRules = [
+  body('email').isEmail()
+];
+
+module.exports = { registerRules, loginRules, verifyRules };

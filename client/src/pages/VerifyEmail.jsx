@@ -5,19 +5,17 @@ import { useNavigate } from 'react-router-dom';
 export default function Verify() {
   const n = useNavigate();
   const { verify } = useAuth();
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('shane.rogers@my.smsu.edu');
   const [err, setErr] = useState('');
 
   async function onSubmit(e) {
     e.preventDefault();
-    try { await verify(email); return (
-        <div>Check your email for the verification link!</div>
-    ); }
+    try { await verify(email);}
     catch (e) { setErr(e.response?.data?.error || 'Verification failed'); }
   }
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-2xl shadow">NIGGER
+    <div className="max-w-md mx-auto p-6 bg-white rounded-2xl shadow">
       <h1 className="text-xl font-semibold mb-4">Verify Your Email</h1>
       {err && <p className="text-red-600">{err}</p>}
       <form onSubmit={onSubmit} className="space-y-3">

@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { api } from '../services/api';
+import { useNavigate } from 'react-router-dom';
 
 const AuthCtx = createContext(null);
 export const useAuth = () => useContext(AuthCtx);
@@ -7,6 +8,7 @@ export const useAuth = () => useContext(AuthCtx);
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [verified, setVerified] = useState(false);
+  const navigate = useNavigate();
 
   async function login(email, password) {
     const { data } = await api.post('/api/auth/login', { email, password });
@@ -21,11 +23,10 @@ export default function AuthProvider({ children }) {
   function logout() {
     localStorage.removeItem('token');
     setUser(null);
+    navigate("/");
   }
   async function verify(email) {
-    const { data } = await api.post('/api/auth/verify', email);
-    localStorage.setItem('token', data.token);
-    setUser(data.user);
+    await api.post('/api/auth/verifyemail', { email });
   }
   useEffect(() => {
     const token = localStorage.getItem('token');

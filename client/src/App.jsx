@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Recommendations from './pages/Recommendations';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Verify from './pages/VerifyEmail';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Orders from './pages/Orders';
@@ -175,6 +176,8 @@ function Shell() {
             <Route path="/recommendations" element={<Recommendations />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/verifyemail" element={<Verify />} />
+
             
             {/* Protected Routes */}
             <Route path="/cart" element={
@@ -190,6 +193,11 @@ function Shell() {
             <Route path="/orders" element={
               <ProtectedRoute>
                 <Orders />
+              </ProtectedRoute>
+            } />
+            <Route path="/verifyemail" element={
+              <ProtectedRoute>
+                <Verify />
               </ProtectedRoute>
             } />
 
