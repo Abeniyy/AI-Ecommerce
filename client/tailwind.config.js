@@ -7,8 +7,9 @@ export default {
   theme: {
   extend: {
     colors: {
-      'ai-purple': '#7E5BEF',
-      'ai-teal': '#2DD4BF',
+      'logoGreen': '#1E6439',
+      'logoYellow': '#bb8e3f',
+      'logoRed': '#af2b3d'
             }
           }
          },

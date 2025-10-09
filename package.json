@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "Full stack AI-enhanced ecommerce website",
   "workspaces": [
-	"client",
-	"server"
-   ],
+    "client",
+    "server"
+  ],
   "private": true,
   "scripts": {
+    "preinstall": "npm install husky --no-save",
     "dev": "concurrently \"cd client && npm run dev\" \"cd server && npm run dev\"",
     "start": "cd server && npm start",
     "build": "cd client && npm run build",
@@ -24,7 +25,11 @@
   "author": "Abenezer Tefera <abenibah@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.8.0",
     "concurrently": "^8.2.2",
     "husky": "^9.0.0"
+  },
+  "dependencies": {
+    "jsdom": "^26.1.0"
   }
 }

@@ -65,5 +65,18 @@ res.status(500).json({ error: 'Failed to load users' });
 }
 });
 
+// // Admin-triggered popularity refresh
+// const { requireAdmin } = require('../middleware/auth');
+// const { query } = require('../db');
+
+// router.post('/popularity/refresh', requireAdmin, async (req, res) => {
+//   try {
+//     await query('REFRESH MATERIALIZED VIEW CONCURRENTLY public.product_popularity_30d');
+//     res.json({ ok: true });
+//   } catch (e) {
+//     res.status(500).json({ ok: false, error: e.message });
+//   }
+// });
+
 
 module.exports = router;

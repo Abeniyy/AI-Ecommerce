@@ -1,16 +1,51 @@
 import { useEffect, useState } from 'react';
 import { api } from '../services/api';
-import ProductCard from '../components/ProductCard';
 import { track } from '../lib/track';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+
+// Reuse the ToastNotification component from Recommendations
+function ToastNotification({ message, type, onClose }) {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onClose();
+    }, 3000);
+    
+    return () => clearTimeout(timer);
+  }, [onClose]);
+  
+  const bgColor = type === 'error' ? 'bg-red-600' : 'bg-green-600';
+  
+  return (
+    <div className={`fixed top-4 right-4 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-opacity duration-300`}>
+      <div className="flex items-center justify-between">
+        <span>{message}</span>
+        <button 
+          onClick={onClose}
+          className="ml-4 text-white hover:text-gray-200"
+        >
+          ×
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState('');
+  const [addingToCart, setAddingToCart] = useState({});
+  const [notification, setNotification] = useState({ show: false, message: '', type: '' });
+  
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
   const images = [
     "src/images/et_bg.jpg",
-    "src/images/et_1.jpg",
+    "src/images/et_bg1.jpg",
+    "src/images/et_bg2.jpg"
   ];
 
   async function loadProducts() {
@@ -25,13 +60,17 @@ export default function Home() {
     }
   }
 
-  
-    useEffect(() => {
-      if (products.length > 0) {
-        // Fire-and-forget; don't await
-        products.slice(0, 12).forEach(p => track('view', p.id));
-      }
-    }, [products]);
+  useEffect(() => {
+    // Load products on initial page load
+    loadProducts();
+  }, []);
+
+  useEffect(() => {
+    if (products.length > 0) {
+      // Fire-and-forget; don't await
+      products.slice(0, 12).forEach(p => track('view', p.id));
+    }
+  }, [products]);
 
   const [current, setCurrent] = useState(0);
 
@@ -40,49 +79,82 @@ export default function Home() {
       setCurrent((prev) => (prev + 1) % images.length);
     }, 5000); // change every 5 seconds
     return () => clearInterval(interval);
-  }, [images.length]); 
+  }, [images.length]);
 
+  function showNotification(message, type = 'success') {
+    setNotification({ show: true, message, type });
+  }
+
+  function hideNotification() {
+    setNotification({ show: false, message: '', type: '' });
+  }
+
+  async function addToCart(productId, productName) {
+    try {
+      if (!user) return navigate('/login');
+      
+      setAddingToCart(prev => ({ ...prev, [productId]: true }));
+      await api.post('/api/cart/items', { 
+        product_id: Number(productId), 
+        quantity: 1
+      });
+      
+      track('add_to_cart', Number(productId));
+      showNotification(`"${productName}" added to cart!`);
+    } catch (error) { 
+      showNotification(error.response?.data?.error || 'Failed to add to cart', 'error');
+    } finally {
+      setAddingToCart(prev => ({ ...prev, [productId]: false }));
+    }
+  }
+
+  function viewDetails(productId) {
+    navigate(`/product/${productId}`);
+  }
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative w-full grid grid-cols-1 md:grid-cols-2 items-center px-8 bg-cover bg-center
-      transition-all duration-1000 fade-in-out min-h-[65vh]"
-      style={{ backgroundImage: `url(${images[current]})` }}>
-
-        {/* Left side text */}
-        <div className="flex flex-col justify-between h-full text-center md:text-left py-12">
-          <div className="space-y-2">
-            <h1 className="text-4xl md:text-6xl font-bold text-green-800" >
-              Ethiopian Cultural Products
-            </h1>
-            <p className="text-xl py=12 text-gray-600">
-              Curated recommendations just for you
-            </p>
+      {notification.show && (
+        <ToastNotification 
+          message={notification.message} 
+          type={notification.type}
+          onClose={hideNotification}
+        />
+      )}
+      
+      {/* Hero Section - Full width */}
+      <section className="relative w-full overflow-hidden">
+        {/* Background image container */}
+        <div 
+          className="w-full h-[65vh] bg-cover bg-center transition-all duration-1000"
+          style={{ backgroundImage: `url(${images[current]})` }}
+        >
+          {/* Content overlay */}
+          <div className="max-w-6xl mx-auto px-4 h-full flex items-center">
+            <div className="flex flex-col justify-between h-full text-center md:text-left py-12 max-w-md">
+              <div className="space-y-2">
+                <h1 className="text-4xl md:text-5xl font-bold text-green-800" >
+                  Ethiopian Cultural Products
+                </h1>
+                <p className="text-xl py-0.5 text-gray-600">
+                  Curated recommendations just for you
+                </p>
+              </div>
+              <div className="flex justify-center md:justify-start gap-4">
+                <button className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg">
+                  Shop Now
+                </button>
+                <button className="bg-gray-200 hover:bg-gray-300 text-green-600 font-semibold py-3 px-6 rounded-lg shadow-lg">
+                  Learn More
+                </button>
+              </div>
+            </div>
           </div>
-          <div className="flex justify-center md:justify-start gap-4">
-            <button className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg">
-              Shop Now
-            </button>
-            <button className="bg-gray-200 hover:bg-gray-300 text-green-600 font-semibold py-3 px-6 rounded-lg shadow-lg">
-              Learn More
-            </button>
-          </div>
-        </div>
-
-        {/* Right side image */}
-        <div className="mt-8 md:mt-0">
-          {/* <img 
-            src="src/images/BaaruuMart Logo.png" 
-            alt="img" 
-            className="w-full rounded-2xl shadow-lg"
-          /> */}
         </div>
       </section>
 
-
       {/* Search & Products Section */}
-      <section className="max-w-6xl mx-auto p-4 md:p-6">
+      <section className="max-w-7xl mx-auto p-4 md:p-6">
         {/* Search Bar */}
         <div className="flex gap-2 mb-8 mt-8">
           <input 
@@ -102,8 +174,25 @@ export default function Home() {
 
         {/* Loading State */}
         {loading && (
-          <div className="text-center py-12">
-            <p className="text-gray-600 text-lg">Loading products…</p>
+          <div className="animate-pulse">
+            <div className="h-8 bg-gray-200 rounded w-64 mb-2"></div>
+            <div className="h-4 bg-gray-200 rounded w-32 mb-6"></div>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {[...Array(8)].map((_, i) => (
+                <div key={i} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                  <div className="h-48 bg-gray-200"></div>
+                  <div className="p-4 space-y-3">
+                    <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                    <div className="h-3 bg-gray-200 rounded w-1/4"></div>
+                    <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                    <div className="flex gap-2 pt-2">
+                      <div className="h-8 bg-gray-200 rounded flex-1"></div>
+                      <div className="h-8 bg-gray-200 rounded flex-1"></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
@@ -131,19 +220,99 @@ export default function Home() {
               </div>
             ) : (
               <>
-                <h2 className="text-2xl font-bold text-gray-800 mb-6">
+                <h2 className="text-3xl font-bold text-gray-800 mb-2">
                   {search ? `Search Results (${products.length})` : 'Featured Products'}
                 </h2>
+                <p className="text-gray-600 mb-8">Discover our curated collection of Ethiopian cultural products</p>
+
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                   {products.map(product => (
-                    <ProductCard 
-                      key={product.id} 
-                      product={product} 
-                      onAdded={() => {
-                        // Optional: Add toast notification or cart update logic
-                        console.log('Product added:', product.id);
-                      }} 
-                    />
+                    <div key={product.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300 overflow-hidden group">
+                      {/* Product Image */}
+                      <div 
+                        className="h-48 bg-gray-100 flex items-center justify-center overflow-hidden cursor-pointer"
+                        onClick={() => viewDetails(product.id)}
+                      >
+                        {product.image ? (
+                          <img 
+                            src={product.image} 
+                            alt={product.name}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                        ) : (
+                          <div className="text-gray-400 flex flex-col items-center">
+                            <span className="text-4xl mb-2">📦</span>
+                            <span className="text-sm">No image</span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Product Info */}
+                      <div className="p-4">
+                        <h3 
+                          className="font-semibold text-gray-800 mb-2 line-clamp-2 hover:text-green-600 cursor-pointer transition-colors"
+                          onClick={() => viewDetails(product.id)}
+                          title={product.name}
+                        >
+                          {product.name}
+                        </h3>
+                        
+                        {/* Price */}
+                        {'price' in product && (
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="text-lg font-bold text-green-600">
+                              ${Number(product.price).toFixed(2)}
+                            </span>
+                            {product.originalPrice && (
+                              <span className="text-sm text-gray-500 line-through">
+                                ${Number(product.originalPrice).toFixed(2)}
+                              </span>
+                            )}
+                          </div>
+                        )}
+
+                        {/* Buttons */}
+                        <div className="flex gap-2 mt-4">
+                          <button 
+                            onClick={() => viewDetails(product.id)}
+                            className="flex-1 border border-gray-300 text-gray-700 py-2 px-3 rounded-lg hover:border-green-600 hover:text-green-600 transition-colors text-sm font-medium"
+                          >
+                            View Details
+                          </button>
+                          <button 
+                            onClick={() => addToCart(product.id, product.name)}
+                            disabled={addingToCart[product.id]}
+                            className="flex-1 bg-green-600 text-white py-2 px-3 rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
+                          >
+                            {addingToCart[product.id] ? (
+                              <span className="flex items-center justify-center">
+                                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Adding
+                              </span>
+                            ) : (
+                              'Add to Cart'
+                            )}
+                          </button>
+                        </div>
+
+                        {/* Additional Info */}
+                        <div className="mt-3 pt-3 border-t border-gray-100">
+                          <div className="flex justify-between text-xs text-gray-500">
+                            {product.category && (
+                              <span className="bg-gray-100 px-2 py-1 rounded">{product.category}</span>
+                            )}
+                            {product.stock !== undefined && (
+                              <span className={product.stock > 0 ? 'text-green-600' : 'text-red-600'}>
+                                {product.stock > 0 ? `${product.stock} left` : 'Out of stock'}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   ))}
                 </div>
               </>
