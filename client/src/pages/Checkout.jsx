@@ -10,22 +10,23 @@ export default function Checkout() {
   const [error, setError] = useState('');
   const [orderDetails, setOrderDetails] = useState(null);
 
-  async function placeOrder() {
+  async function goToStripe() {
     try {
       setLoading(true);
       setError('');
-      const { data } = await api.post('/api/orders/checkout');
-      setOrderDetails(data.order);
-      
-      // Redirect to orders page after a brief success display
-      setTimeout(() => {
-        navigate('/orders');
-      }, 2000);
-      
-    } catch (e) { 
-      setError(e.response?.data?.error || 'Checkout failed. Please try again.');
-    } finally { 
-      setLoading(false); 
+      const { data } = await api.post('/api/payments/checkout-session');
+      if (data?.order_id) {
+        localStorage.setItem('pending_order_id', String(data.order_id));
+      }
+      if (data?.url) {
+        window.location.assign(data.url);
+        return;
+      }
+      setError('No checkout URL returned');
+    } catch (e) {
+      setError(e?.response?.data?.error || e.message || 'Failed to start checkout');
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -75,7 +76,7 @@ export default function Checkout() {
             <h3 className="text-lg font-semibold mb-3">Order Summary</h3>
             <div className="bg-gray-50 rounded-lg p-4">
               <p className="text-gray-600">
-                This demo will convert your current cart into a confirmed order.
+                You'll be redirected to Stripe to complete payment.
                 In a real application, this would include payment processing and
                 shipping information.
               </p>
@@ -109,17 +110,17 @@ export default function Checkout() {
               Back to Cart
             </button>
             <button
-              onClick={placeOrder}
+              onClick={goToStripe}
               disabled={loading}
               className="flex-1 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <span className="flex items-center justify-center">
                   <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></span>
-                  Processing...
+                  Redirecting...
                 </span>
               ) : (
-                'Place Order'
+                'Pay with Stripe'
               )}
             </button>
           </div>
@@ -131,7 +132,7 @@ export default function Checkout() {
               <div>
                 <p className="text-sm text-blue-800 font-medium">Secure Checkout</p>
                 <p className="text-xs text-blue-600">
-                  This is a demo. No real payment information is required.
+                  You'll be redirected to Stripe for secure payment processing.
                 </p>
               </div>
             </div>
