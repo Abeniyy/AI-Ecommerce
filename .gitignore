@@ -12,7 +12,7 @@ pnpm-debug.log*
 .eslintcache
 *.tsbuildinfo
 
-# ---------- Env & secrets (never commit real envs) ----------
+# ---------- Env & secrets ----------
 .env
 .env.*
 *.env
@@ -27,12 +27,11 @@ pnpm-debug.log*
 **/.mypy_cache/
 **/.pytest_cache/
 **/.venv/
-.venv/                 # root venv if you use one
+.venv/
 
 # ML artifacts
 ml/models/
 ml/checkpoints/
-# (optional) add if you put sample data locally:
 # ml/data/
 
 # ---------- Logs ----------
