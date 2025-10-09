@@ -1,18 +1,30 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 export default function Login() {
-  const n = useNavigate();
-  const { login } = useAuth();
-  const [email, setEmail] = useState('test@example.com');
-  const [password, setPassword] = useState('password123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [err, setErr] = useState('');
+  const [busy, setBusy] = useState(false);
+  
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
 
   async function onSubmit(e) {
     e.preventDefault();
-    try { await login(email, password); n('/'); }
-    catch (e) { setErr(e.response?.data?.error || 'Login failed'); }
+    try {
+      setBusy(true);
+      setErr('');
+      await login(email.trim(), password);
+      navigate(from, { replace: true });
+    } catch (error) {
+      setErr(error.response?.data?.error || 'Login failed');
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (
@@ -20,9 +32,31 @@ export default function Login() {
       <h1 className="text-xl font-semibold mb-4">Sign in</h1>
       {err && <p className="text-red-600">{err}</p>}
       <form onSubmit={onSubmit} className="space-y-3">
-        <input className="w-full border p-2 rounded" placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)} />
-        <input className="w-full border p-2 rounded" placeholder="Password" type="password" value={password} onChange={e=>setPassword(e.target.value)} />
-        <button className="w-full bg-black text-white rounded p-2">Login</button>
+        <input 
+          className="w-full border p-2 rounded placeholder-gray-400"
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          autoComplete="email"
+          required
+        />
+        <input 
+          className="w-full border p-2 rounded placeholder-gray-400"
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          autoComplete="current-password"
+          required
+        />
+        <button 
+          className="w-full bg-black text-white rounded p-2 disabled:opacity-50"
+          type="submit"
+          disabled={busy}
+        >
+          {busy ? 'Signing in...' : 'Login'}
+        </button>
       </form>
       <p className="text-sm mt-3">No account? <Link className="underline" to="/register">Register</Link></p>
     </div>

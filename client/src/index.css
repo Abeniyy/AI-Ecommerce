@@ -11,3 +11,37 @@
     @apply border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500;
   }
 }
+
+/* Ensure the app can fill the height */
+html, body, #root { height: 100%; }
+
+/* Kill any previous overlay that sat above content */
+body::before { content: none !important; }
+
+/* Global background with an in-background overlay (not over content) */
+body {
+  /* Layer 1: semi-transparent overlay | Layer 2: background image */
+  background-image:
+    linear-gradient(
+      to right,
+        transparent 13%,
+      rgba(255,255,255,0.70) 13%,
+      rgba(255,255,255,0.70) 87%, 
+       transparent 87%  ),
+    /* linear-gradient(rgba(0,0,0,0.70), rgba(0,0,0,0.70)), */
+    url('/images/bg.jpg');
+
+  /* Repeat BOTH layers so overlay covers the whole scroll, and image tiles fully */
+  background-repeat: repeat, repeat;
+
+  /* Tile sizes:
+     - Overlay tile = full viewport height → repeated down the page
+     - Image tile = natural size; change 'auto' to '600px auto' to scale the tile */
+  background-size: 100% 100vh, auto;
+
+  /* Positions */
+  background-position: 0 0, center top;
+
+  /* Keep scroll attachment (avoids iOS bg-fixed jank) */
+  background-attachment: scroll, scroll;
+}
