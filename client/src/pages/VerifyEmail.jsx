@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Verify() {
   const n = useNavigate();
   const { verify } = useAuth();
-  const [email, setEmail] = useState('shane.rogers@my.smsu.edu');
+  const [email, setEmail] = useState('');
   const [err, setErr] = useState('');
 
   async function onSubmit(e) {

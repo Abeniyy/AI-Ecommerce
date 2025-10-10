@@ -41,7 +41,6 @@ export default function Home() {
   const [addingToCart, setAddingToCart] = useState({});
   const [notification, setNotification] = useState({ show: false, message: '', type: '' });
   
-  const { user } = useAuth();
   const navigate = useNavigate();
 
   const images = [
