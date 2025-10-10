@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Recommendations from './pages/Recommendations';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Verify from './pages/VerifyEmail';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Orders from './pages/Orders';
@@ -183,9 +184,11 @@ function Shell() {
             <Route path="/recommendations" element={<Recommendations />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+
             {/* Make Stripe return pages PUBLIC */}
             <Route path="/success" element={<Success />} />
             <Route path="/cancel" element={<Cancel />} />
+            <Route path="/verifyemail" element={<Verify />} />
 
             {/* Protected */}
             <Route
@@ -212,6 +215,11 @@ function Shell() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/verifyemail" element={
+              <ProtectedRoute>
+                <Verify />
+              </ProtectedRoute>
+            } />
 
             {/* Admin */}
             <Route

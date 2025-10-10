@@ -1,11 +1,14 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { api, setInitialAccessFromStorage } from '../services/api';
+import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext(null);
 
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [verified, setVerified] = useState(false);
+  const navigate = useNavigate();
 
   async function login(email, password) {
     const { data } = await api.post('/api/auth/login', { email, password });
@@ -31,6 +34,10 @@ export default function AuthProvider({ children }) {
     localStorage.removeItem('token');
     setInitialAccessFromStorage();
     setUser(null);
+    navigate("/");
+  }
+  async function verify(email) {
+    await api.post('/api/auth/verifyemail', { email });
   }
 
   // on mount: bootstrap auth
@@ -52,7 +59,7 @@ export default function AuthProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, register }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, register, verify }}>
       {children}
     </AuthContext.Provider>
   );

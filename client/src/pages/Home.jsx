@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { api } from '../services/api';
 import { track } from '../lib/track';
 import { useAuth } from '../context/AuthContext';
+import { NavLink } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
 // Reuse the ToastNotification component from Recommendations
@@ -32,6 +33,7 @@ function ToastNotification({ message, type, onClose }) {
 }
 
 export default function Home() {
+  const { user } = useAuth();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -114,6 +116,10 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
+      {/* Email verification section for unverified users */}
+      {user && (
+        <div className="flex justify-center h-[5vh]"><NavLink to="/verifyemail" className="underline">Verify Your Email</NavLink></div>
+      )}
       {notification.show && (
         <ToastNotification 
           message={notification.message} 
