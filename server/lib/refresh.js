@@ -123,7 +123,7 @@ async function rotateRefreshSession(rawToken, ua, ip, res) {
 
 async function revokeByCookie(rawToken, res) {
   if (!rawToken) return;
-  // ✅ fixed: use rawToken and close parentheses
+  // use rawToken and close parentheses
   const hash = crypto.createHash('sha256').update(rawToken).digest('base64url');
   await query(
     `UPDATE public.auth_refresh_tokens SET revoked = TRUE WHERE token_hash = $1`,

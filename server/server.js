@@ -35,7 +35,15 @@ app.use(cookieParser());
 
 app.post('/api/payments/webhook', express.raw({ type: 'application/json' }), stripeWebhook);
 
-app.set('trust proxy', true);
+// app.set('trust proxy', true);
+
+  // Safer defaults: trust loopback in dev; single proxy in prod | Won't work now b/c trust proxy is commented out
+  if (process.env.NODE_ENV === 'production') {
+    app.set('trust proxy', 1);
+  } else {
+    app.set('trust proxy', 'loopback');
+  }
+
 app.use(
   cors({
     origin: process.env.CORS_ORIGIN || 'http://localhost:5173',

@@ -7,13 +7,18 @@ export default function Register() {
   const { register } = useAuth();
   const [email, setEmail] = useState('');
   const [full_name, setFull] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [err, setErr] = useState('');
 
   async function onSubmit(e) {
     e.preventDefault();
-    try { await register({ email, password, full_name }); n('/'); }
-    catch (e) { setErr(e.response?.data?.error || 'Registration failed'); }
+    try {
+      await register({ email, password, full_name, phone });
+      n('/');
+    } catch (e) {
+      setErr(e.response?.data?.error || e.message || 'Registration failed');
+    }
   }
 
   return (
@@ -22,6 +27,7 @@ export default function Register() {
       {err && <p className="text-red-600">{err}</p>}
       <form onSubmit={onSubmit} className="space-y-3">
         <input className="w-full border p-2 rounded" placeholder="Full name" value={full_name} onChange={e=>setFull(e.target.value)} />
+        <input className="w-full border p-2 rounded" placeholder="Phone (optional)" value={phone} onChange={e=>setPhone(e.target.value)} />
         <input className="w-full border p-2 rounded" placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)} />
         <input className="w-full border p-2 rounded" placeholder="Password" type="password" value={password} onChange={e=>setPassword(e.target.value)} />
         <button className="w-full bg-black text-white rounded p-2">Register</button>

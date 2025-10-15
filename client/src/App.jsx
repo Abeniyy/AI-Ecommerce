@@ -1,4 +1,5 @@
-import { useState, useRef } from 'react';
+import { api } from './services/api';
+import { useState, useRef, useEffect } from 'react';
 import { Link, Routes, Route, NavLink, useLocation } from 'react-router-dom';
 
 import Home from './pages/Home';
@@ -25,6 +26,7 @@ import Cancel from './pages/Cancel';
 
 import OrderDetail from './pages/OrderDetail';
 
+import ForgotPassword from './pages/ForgotPassword';
 
 function AdminMenu({ isActiveClass, isAdminRoute }) {
   const [open, setOpen] = useState(false);
@@ -68,9 +70,10 @@ function AdminMenu({ isActiveClass, isAdminRoute }) {
           </NavLink>
           <NavLink
             to="/admin/returns"
-            className={isActiveClass} role="menuitem"
+            className={isActiveClass}
+            role="menuitem"
           >
-             Returns
+            Returns
           </NavLink>
         </div>
       )}
@@ -81,6 +84,14 @@ function AdminMenu({ isActiveClass, isAdminRoute }) {
 function Shell() {
   const { user, logout } = useAuth();
   const location = useLocation();
+
+  // moved your debug logger here so we don't have a duplicate App component
+  useEffect(() => {
+    console.log('App mounted - checking API client state');
+    console.log('Base URL:', api.defaults.baseURL);
+    console.log('With credentials:', api.defaults.withCredentials);
+    console.log('Initial token:', !!localStorage.getItem('token'));
+  }, []);
 
   const navLink = ({ isActive }) =>
     `px-3 py-2 rounded-xl transition-colors ${
@@ -125,7 +136,9 @@ function Shell() {
                 <AdminMenu
                   isActiveClass={({ isActive }) =>
                     `block px-4 py-2 rounded-lg transition-colors ${
-                      isActive ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-green-50 hover:text-green-600'
+                      isActive
+                        ? 'bg-green-600 text-white'
+                        : 'text-gray-700 hover:bg-green-50 hover:text-green-600'
                     }`
                   }
                   isAdminRoute={isAdminRoute}
@@ -185,10 +198,11 @@ function Shell() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
 
-            {/* Make Stripe return pages PUBLIC */}
+            {/* Stripe return pages are public */}
             <Route path="/success" element={<Success />} />
             <Route path="/cancel" element={<Cancel />} />
             <Route path="/verifyemail" element={<Verify />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
 
             {/* Protected */}
             <Route
@@ -215,11 +229,15 @@ function Shell() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/verifyemail" element={
-              <ProtectedRoute>
-                <Verify />
-              </ProtectedRoute>
-            } />
+            {/* Order detail (protected) */}
+            <Route
+              path="/orders/:id"
+              element={
+                <ProtectedRoute>
+                  <OrderDetail />
+                </ProtectedRoute>
+              }
+            />
 
             {/* Admin */}
             <Route
@@ -255,14 +273,6 @@ function Shell() {
               }
             />
             <Route
-              path="/orders/:id"
-              element={
-                <ProtectedRoute>
-                  <OrderDetail />
-                </ProtectedRoute>
-              }
-            />
-            <Route
               path="/admin/returns"
               element={
                 <ProtectedRoute minRole="admin">
@@ -275,30 +285,6 @@ function Shell() {
       </main>
 
       {/* Footer */}
-      {/* <footer className="bg-[url('/src/images/footerBg1.png')] bg-cover bg-center relative mt-auto w-fit">
-        <div className="absolute inset-0 bg-black/30"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="text-center text-white text-sm">
-            <p>© {new Date().getFullYear()} AI-Ecommerce. All rights reserved.</p>
-            <p className="mt-1">Built by ABE web technologies.</p>
-          </div>
-        </div>
-      </footer> */}
-      {/* <footer
-        className="
-          relative w-full bg-cover bg-center bg-no-repeat mt-auto
-          flex items-center justify-center text-center
-        "
-        style={{ backgroundImage: "url('/footerBg1.png')" }} // move image to /public
-      >
-        <div className="absolute inset-0 bg-black/30" />
-        <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="text-center text-white text-sm">
-            <p>© {new Date().getFullYear()} AI-Ecommerce. All rights reserved.</p>
-            <p className="mt-1">Built by ABE web technologies.</p>
-          </div>
-        </div>
-      </footer> */}
       <div className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen">
         <footer
           className=" relative bg-cover bg-center bg-no-repeat flex items-center justify-center text-center mt-auto"
@@ -313,7 +299,6 @@ function Shell() {
           </div>
         </footer>
       </div>
-
     </div>
   );
 }

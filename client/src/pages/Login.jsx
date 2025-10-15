@@ -58,6 +58,10 @@ export default function Login() {
           {busy ? 'Signing in...' : 'Login'}
         </button>
       </form>
+      <p className="text-sm mt-3">
+        <Link className="underline" to="/forgot-password">Forgot your password?</Link>
+      </p>
+
       <p className="text-sm mt-3">No account? <Link className="underline" to="/register">Register</Link></p>
     </div>
   );
