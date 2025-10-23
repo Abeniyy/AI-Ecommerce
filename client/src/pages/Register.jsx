@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 
 export default function Register() {
   const n = useNavigate();
-  const { register } = useAuth();
+  const { register, registerFirebase } = useAuth();
   const [email, setEmail] = useState('');
   const [full_name, setFull] = useState('');
   const [phone, setPhone] = useState('');
@@ -14,7 +14,7 @@ export default function Register() {
   async function onSubmit(e) {
     e.preventDefault();
     try {
-      await register({ email, password, full_name, phone });
+      await registerFirebase({ email, password, full_name, phone });
       n('/');
     } catch (e) {
       setErr(e.response?.data?.error || e.message || 'Registration failed');

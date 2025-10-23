@@ -7,6 +7,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  sendPasswordResetEmail
 } from 'firebase/auth';
 
 const AUTH_PROVIDER = (import.meta.env.VITE_AUTH_PROVIDER || 'password').trim();
@@ -62,14 +63,14 @@ export default function AuthProvider({ children }) {
     return data.user;
   }
 
-  async function registerFirebase({ email, password, full_name }) {
+  async function registerFirebase({ email, password, full_name, phone }) {
     if (!password || password.length < 8) {
       throw new Error('Password must be at least 8 characters long');
     }
     const { user: fbUser } = await createUserWithEmailAndPassword(fbAuth, email, password);
     try { await sendEmailVerification(fbUser); } catch {}
     const idToken = await fbUser.getIdToken();
-    const { data } = await apiWithAuth.post('/api/auth/firebase-login', { idToken, full_name });
+    const { data } = await apiWithAuth.post('/api/auth/firebase-login', { idToken, full_name, phone });
     if (data?.token) {
       localStorage.setItem('token', data.token);
       setInitialAccessFromStorage();
@@ -86,12 +87,26 @@ export default function AuthProvider({ children }) {
     await apiWithAuth.post('/api/auth/verifyemail', { email });
   }
 
+  async function forgotPassword(email) {
+    if (!email || !email.includes('@')) throw new Error('Valid email is required');
+    try {
+      await sendPasswordResetEmail(fbAuth, email);
+      await apiWithAuth.post('/api/auth/forgotpassword', { email });
+    } catch (error) {
+      console.log("Error sending email: ", error)}
+  }
+
   async function logout() {
     try { await apiWithAuth.post('/api/auth/logout'); } catch {}
     localStorage.removeItem('token');
     setInitialAccessFromStorage();
     setUser(null);
     navigate('/');
+  }
+
+  async function resendVerificationEmail() {
+    const fbUser = fbAuth.currentUser;
+    try { await sendEmailVerification(fbUser); } catch {}
   }
 
   // Bootstrap session on mount
@@ -121,11 +136,13 @@ export default function AuthProvider({ children }) {
       verify,
       loginPassword,
       registerPassword,
+      forgotPassword,
       loginFirebase,
       registerFirebase,
       authProvider: AUTH_PROVIDER,
       isAuthenticated: !!user,
       isVerified: !!user?.isverified,
+      resendVerificationEmail
     }}>
       {children}
     </AuthContext.Provider>

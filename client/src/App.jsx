@@ -149,7 +149,7 @@ function Shell() {
               {user ? (
                 <div className="flex items-center gap-3 ml-2">
                   <span className="text-sm text-gray-600">
-                    Hi, {user.full_name || user.email.split('@')[0]}
+                    Hi, {user.full_name.split(" ")[0] || user.email.split('@')[0]}
                   </span>
                   <div className="flex items-center gap-2">
                     <NavLink

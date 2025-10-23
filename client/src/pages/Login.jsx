@@ -8,7 +8,7 @@ export default function Login() {
   const [err, setErr] = useState('');
   const [busy, setBusy] = useState(false);
   
-  const { login } = useAuth();
+  const { login, loginFirebase } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/';
@@ -18,7 +18,7 @@ export default function Login() {
     try {
       setBusy(true);
       setErr('');
-      await login(email.trim(), password);
+      await loginFirebase(email.trim(), password);
       navigate(from, { replace: true });
     } catch (error) {
       setErr(error.response?.data?.error || 'Login failed');

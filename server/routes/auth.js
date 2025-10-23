@@ -244,6 +244,28 @@ router.post('/verifyemail', authLimiter, sanitizeEmail, verifyRules, async (req,
   }
 });
 
+router.post('/forgotpassword', authLimiter, sanitizeEmail, verifyRules, async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+
+  const { email } = req.body;
+  try {
+    const { rows } = await query(
+      'SELECT id, email FROM public.users WHERE email = $1',
+      [email]
+    );
+
+    if (rows.length === 0) {
+      return res.json({ message: 'If the email exists, a reset link has been sent' });
+    }
+    const user = rows[0];
+    return res.json({ message: 'If the email exists, a reset link has been sent' });
+  } catch (e) {
+    console.error("Password reset error:", e.message);
+    res.status(500).json({ error: 'Password reset failed' });
+  }
+});
+
 router.get('/me', requireAuth, async (req, res) => {
   try {
     const { rows } = await query(
