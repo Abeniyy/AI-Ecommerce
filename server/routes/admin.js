@@ -65,6 +65,18 @@ res.status(500).json({ error: 'Failed to load users' });
 }
 });
 
+router.put('/users/:id/role', requireAuth, requireAdmin, async (req, res) => {
+    const id = req.params.id;
+    const role = req.body.role;
+    try {
+        const { rows } = await query(`UPDATE public.users SET role = $1 WHERE id = $2`, [role, id]);
+        res.json({ ok: true });
+    }
+    catch (e) {
+        res.status(500).json({ error: 'Failed to update user role' });
+    }
+});
+
 // // Admin-triggered popularity refresh
 // const { requireAdmin } = require('../middleware/auth');
 // const { query } = require('../db');
