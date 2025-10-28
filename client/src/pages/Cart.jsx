@@ -9,7 +9,7 @@ export default function Cart() {
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, isVerified } = useAuth();
 
   useEffect(() => {
     loadCart();
@@ -168,13 +168,22 @@ export default function Cart() {
           </span>
         </div>
 
-        <button
+        {user && isVerified ? (
+          <button
           onClick={proceedToCheckout}
           disabled={updating}
           className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {updating ? 'Processing...' : 'Proceed to Checkout'}
         </button>
+        ) : (
+          <button
+          disabled
+          className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {updating ? 'Processing...' : 'You must verify your email before checking out'}
+        </button>
+        )}
 
         <button
           onClick={() => navigate('/')}
